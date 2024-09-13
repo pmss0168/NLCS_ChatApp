@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="shortcut icon" href="images/icon.png" type="image/x-icon" />
+        <title>Login</title>
+    </head>
+    <body id="login">
+        <%if(notify.length > 0){%>
+        <div id="notify">
+            <p><%=notify%></p>
+        </div>
+        <%}%>
+        <div class="boxLogin">
+            <div class="title">Đăng nhập</div>
+            <form id="loginSubmit" action="" method="post" enctype="application/x-www-form-urlencoded" onsubmit="">
+                <div>
+                    <h4 for="">Tên đăng nhập</h4>
+                    <input
+                        id="user"
+                        name="user"
+                        type="text"
+                        placeholder="Nhập tên đăng nhập"
+                        minlength="4"
+                        maxlength="18"
+                        required
+                    />
+                </div>
+                <div>
+                    <h4 for="">Mật khẩu</h4>
+                    <input
+                        id="pass"
+                        name="pass"
+                        type="password"
+                        placeholder="Nhập mật khẩu"
+                        minlength="4"
+                        maxlength="18"
+                        autocomplete="off"
+                        required
+                    />
+                </div>
+                <button type="submit">Xác nhận</button>
+                <p>Bạn chưa có tài khoản? <a href="register">Đăng ký</a></p>
+            </form>
+        </div>
+        <footer style="position: absolute; bottom: 0px">&copy; Phạm Minh Sáng B2110976</footer>
+        <!-- <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+            integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script> -->
+        <!-- <script src="/socket.io/socket.io.js"></script> -->
+        <!-- <script src="js/main.js"></script> -->
+    </body>
+</html>

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="css/style.css" />
+        <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+        <link rel="shortcut icon" href="images/icon.png" type="image/x-icon" />
+        <title>VanouS Chat</title>
+    </head>
+    <body id="chat">
+        <div class="mainContainer">
+            <div class="left">
+                <div class="userOnline"><i class="bx bxs-conversation"></i> VanouS Chat</div>
+                <div id="user">
+                    <form id="searchForm" method="post">
+                        <div id="search">
+                            <input type="text" name="searchInput" id="searchInput" />
+                            <button type="submit"><i class="bx bx-search"></i></button>
+                        </div>
+                    </form>
+                    <div class="title">Chats</div>
+                    <hr style="margin: 0 40px 0 40px" />
+                    <div id="userName">
+                        <!-- <button class="userItem" value="all">
+                            <img src="images/user.png" alt="" style="width: 50px; height: 50px" />
+                            <p>Pham Minh Sang</p>
+                        </button>
+                        <div class="userItem">
+                            <img src="images/user.png" alt="" style="width: 50px; height: 50px" />
+                            <p>Ng Van Binh</p>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="userInfo">
+                    <p id="currentUser">Home</p>
+                    <a href="/logout"
+                        ><button id="logoutBtn"><i class="bx bx-log-out-circle"></i></button
+                    ></a>
+                </div>
+                <div id="addFriend">
+                    <div id="acceptFriendFrame">
+                        <div class="title">Friend Request</div>
+                        <div id="friendRequest">
+                            <!-- <div class="item">
+                                <p style="width: 100%; text-align: center">No One</p>
+                            </div> -->
+                            <!-- <div class="item">
+                                <i class="bx bx-chevron-right"></i>
+                                <p style="max-width: 150px; text-align: left">Huỳnh lê</p>
+                                <button value="" onclick="acceptFriendChat();">
+                                    <i class="bx bx-check-double"></i>
+                                </button>
+                            </div> -->
+                        </div>
+                    </div>
+                    <hr style="margin: 0px 3rem" />
+                    <div id="addFriendFrame">
+                        <div class="title">Add conversation</div>
+                        <form id="searchAddConversation" method="post">
+                            <div id="search">
+                                <input type="text" name="searchAddFriend" id="searchAddFriend" />
+                                <button type="submit"><i class="bx bx-search"></i></button>
+                            </div>
+                        </form>
+                        <div id="listUser">
+                            <!-- <div class="item">
+                                <p style="width: 100%; text-align: center">No One</p>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div id="chatFrame">
+                    <!-- <div class="chatContent otherChat">
+                        <h5>Sang</h5>
+                        <div class="item">
+                            <p>Toi la Sang</p>
+                        </div>
+                        <p><span>08:11AM</span></p>
+                    </div>
+                    <div class="chatContent mineChat">
+                        <h5>Sang</h5>
+                        <div class="item">
+                            <p>lorem50</p>
+                        </div>
+                        <p>08:11AM</p>
+                    </div>-->
+                </div>
+                <div id="sendBox">
+                    <form id="chatInput" method="post">
+                        <input type="text" id="messageInput" placeholder="Nhập tin nhắn..." autocomplete="off" />
+                        <input type="hidden" id="receiverMsg" />
+                        <button type="submit" id="sendBtn"><i class="bx bxs-paper-plane"></i></button>
+                    </form>
+                    <div id="typing">User typing...</div>
+                </div>
+            </div>
+        </div>
+        <footer style="position: absolute; bottom: 0px">&copy; Phạm Minh Sáng B2110976</footer>
+        <script src="js/jquery-3.7.1.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+        <% if(user) {%>
+        <script>
+            //Socketio lang nghe o server port 3000
+            const urlServer = 'http://localhost';
+            const portServer = 3000;
+            const urlChat = urlServer + ':' + portServer + '/chat';
+            const socket = io(urlChat);
+
+            let message = document.getElementById('messageInput');
+            let chatFrame = document.getElementById('chatFrame');
+            let chatInput = document.getElementById('chatInput');
+            let addFriend = document.getElementById('addFriend');
+            let searchForm = document.getElementById('searchForm');
+            let searchInput = document.getElementById('searchInput');
+            let searchAddConversation = document.getElementById('searchAddConversation');
+            let searchAddFriend = document.getElementById('searchAddFriend');
+            const currentUser = document.getElementById('currentUser');
+            let accountUser = '<%=user%>';
+            let receiver = '';
+
+            //-----------------Socket On of Function------------------
+            //Kiểm tra user đã đăng nhập vào server hay chưa
+            // socket.on('checkUser', function (status) {
+            //     if (!status) {
+            //         socket.emit('logoutUser', accountUser);
+            //         accountUser = '';
+            //         window.location = '/';
+            //     }
+            // });
+            socket.on('loadMessage', function (data) {
+                chatFrame.innerHTML = '';
+                data.forEach((element) => {
+                    renderMessage(element);
+                });
+            });
+            socket.on('loadAcceptFriendPage', function (data) {
+                $('#chatFrame').hide();
+                $('#sendBox').hide();
+                $('#addFriend').show();
+                let friendRequest = document.getElementById('friendRequest');
+                let acceptFriendFrame = document.getElementById('acceptFriendFrame');
+                let addFriendFrame = document.getElementById('addFriendFrame');
+                let listUser = document.getElementById('listUser');
+                if (data.length === 0) {
+                    acceptFriendFrame.style.display = 'none';
+                    addFriendFrame.style.height = '420px';
+                    listUser.style.height = '330px';
+                    // friendRequest.innerHTML = `
+                    //     <div class="item">
+                    //         <p style="width: 100%; text-align: center">No One</p>
+                    //     </div>
+                    // `;
+                } else {
+                    acceptFriendFrame.style.display = '';
+                    addFriendFrame.style.height = '';
+                    listUser.style.height = '';
+                    friendRequest.innerHTML = '';
+                    for (element of data) {
+                        let template = `
+                        <div class="item">
+                            <i class="bx bx-chevron-right"></i>
+                            <p style="max-width: 150px; text-align: left">${element.username}</p>
+                            <button value="${element.username}" onclick="acceptFriendChat(this.value);">
+                                <i class="bx bx-check-double"></i>
+                            </button>
+                        </div>
+                        `;
+                        friendRequest.innerHTML += template;
+                    }
+                }
+            });
+            socket.on('loadAddFriendPage', function (data) {
+                $('#chatFrame').hide();
+                $('#sendBox').hide();
+                $('#addFriend').show();
+                let listUser = document.getElementById('listUser');
+                if (data.length === 0) {
+                    listUser.innerHTML = `
+                        <div class="item">
+                            <p style="width: 100%; text-align: center">No One</p>
+                        </div>
+                    `;
+                } else {
+                    listUser.innerHTML = '';
+                    for (element of data) {
+                        let template = `
+                        <div class="item">
+                            <i class="bx bx-chevron-right"></i>
+                            <p>${element.username}</p>
+                            <button value="${element.username}" onclick="addFriendChat(this.value);"><i class='bx bxs-user-plus' ></i></button>
+                        </div>
+                        `;
+                        listUser.innerHTML += template;
+                    }
+                }
+                // listUser.scrollTop = listUser.scrollHeight;
+            });
+            socket.on('acceptFriendChat', function () {
+                loadPage();
+            });
+            socket.on('addFriendChat', function () {
+                loadPage();
+            });
+            //Hien thi thong tin nguoi dung khi dang nhap onl tren server
+            socket.on('showUser', function (listConversation) {
+                let user = document.getElementById('userName');
+                user.innerHTML = '';
+                user.innerHTML += `
+                <button value="" class="userItem home" onclick='showAddFriendPage()' style='background-color: #e0e0e0;'>
+                    <img src="images/home.png" alt="" style="width: 50px; height: 50px" />
+                    <p style='min-width: 60px;'>Home</p>
+                    <span style="display: none; background-color: crimson; border-radius: 50%; position: absolute; width: 20px; height: 20px; left: 50px; top: 6px;"></span>
+                </button>
+                `;
+                if (listConversation.length > 0) {
+                    for (let element of listConversation) {
+                        let divUserName = `
+                        <button value="${element.username}" class="userItem ${element.username}" onclick='getReceiver(this.value)'>
+                            <img src="images/user.png" alt="" style="width: 50px; height: 50px" />
+                            <p>${element.username}</p>
+                            <span class='${element.username}' style="display: none;"></span>
+                        </button>
+                        `;
+                        user.innerHTML += divUserName;
+                    }
+                }
+            });
+            //Xu tin hien thi tin nhan
+            socket.on('loadNotification', function (data) {
+                data.forEach((element) => {
+                    let temp = '.userItem .' + element.sender;
+                    // console.log(temp);
+                    let userTag = document.querySelector(temp);
+                    userTag.style.display = 'block';
+                });
+            });
+            socket.on('notificationMsg', function (senderPara, receiverPara) {
+                if (receiver != senderPara) {
+                    let temp = '.userItem .' + senderPara;
+                    // console.log(temp);
+                    let userTag = document.querySelector(temp);
+                    userTag.style.display = 'block';
+                } else {
+                    socket.emit('removeNotification', accountUser, receiver);
+                }
+            });
+            socket.on('removeNotification', function (senderPara, receiverPara) {
+                let temp = '.userItem .' + receiverPara;
+                // console.log(temp);
+                let userTag = document.querySelector(temp);
+                userTag.style.display = 'none';
+            });
+
+            //Xy ly hien thi dang nhan tin
+            socket.on('typingMsg', function (Obj) {
+                if (receiver != '' && receiver == Obj.sender && Obj.receiver == accountUser) {
+                    let typing = document.getElementById('typing');
+                    typing.style.display = 'block';
+                    typing.textContent = Obj.sender + ' is typing...';
+                }
+            });
+            socket.on('stopTyping', function (Obj) {
+                if (receiver != '' && receiver == Obj.sender && Obj.receiver == accountUser) {
+                    let typing = document.getElementById('typing');
+                    typing.style.display = 'none';
+                }
+            });
+
+            //Xu ly ham gui tin nhan len cho toan bo moi nguoi
+            socket.on('sendMessage', function (msgObj) {
+                if (receiver !== '') {
+                    renderMessage(msgObj);
+                }
+            });
+            socket.on('receiveMessage', function (msgObj) {
+                if (receiver != '' && receiver == msgObj.sender && msgObj.receiver == accountUser) {
+                    renderMessage(msgObj);
+                }
+            });
+
+            socket.on('searchUser', async function (listConversation) {
+                await loadNotification(listConversation);
+            });
+            //------------------------------Function---------------------------
+            async function loadPage() {
+                await loadAcceptFriendPage();
+                await loadAddFriendPage();
+                await showListConversation();
+                await loadNotification();
+            }
+            async function loadAcceptFriendPage() {
+                await socket.emit('loadAcceptFriendPage', accountUser);
+            }
+            async function showAddFriendPage() {
+                await socket.emit('loadAcceptFriendPage', accountUser);
+                receiver = '';
+                currentUser.textContent = 'Home';
+                let userItemList = document.querySelectorAll('.userItem');
+                let hoverBg =
+                    '.left #user #userName .userItem:hover {background-color: var(--second-color);transform: scale(110%);transition: all ease-in-out 0.2s;}';
+                userItemList.forEach((element) => {
+                    element.style.backgroundColor = '#f0f0f0';
+                    element.style.cssText = hoverBg;
+                });
+                let temp = '.userItem.home';
+                let homeTag = document.querySelector(temp);
+                homeTag.style.backgroundColor = '#e0e0e0';
+            }
+
+            //loadAddFriendPage
+            async function loadAddFriendPage() {
+                await socket.emit('loadAddFriendPage', accountUser);
+            }
+            async function showListConversation() {
+                await socket.emit('showUser', accountUser);
+            }
+            async function loadNotification(data) {
+                await socket.emit('loadNotification', accountUser, data);
+            }
+            //add friend chat
+            async function addFriendChat(friend) {
+                // console.log(friend);
+                await socket.emit('addFriendChat', friend, accountUser);
+                await loadPage();
+            }
+            async function acceptFriendChat(friend) {
+                await socket.emit('acceptFriendChat', friend, accountUser);
+                await loadPage();
+            }
+
+            //Ham lay nguoi nhan tin nhan
+            async function getReceiver(data) {
+                receiver = data;
+                currentUser.textContent = receiver;
+                await socket.emit('removeNotification', accountUser, receiver);
+                await socket.emit('loadMessage', receiver, accountUser);
+                let userItemList = document.querySelectorAll('.userItem');
+                let hoverBg =
+                    '.left #user #userName .userItem:hover {background-color: var(--second-color);transform: scale(110%);transition: all ease-in-out 0.2s;}';
+                userItemList.forEach((element) => {
+                    element.style.backgroundColor = '#f0f0f0';
+                    element.style.cssText = hoverBg;
+                });
+                let temp = '.userItem.' + data;
+                let userTag = document.querySelector(temp);
+                userTag.style.backgroundColor = '#e0e0e0';
+                $('#addFriend').hide();
+                $('#sendBox').show();
+                $('#chatFrame').show();
+            }
+
+            //Ham render tin nhan
+            function renderMessage(msgObj) {
+                //Them tin nhan vao chatFrame
+                let chatCell = document.createElement('div');
+                let div = document.createElement('div');
+                let userChat = document.createElement('h5');
+                let text = document.createElement('p');
+                let time = document.createElement('p');
+                if (msgObj.sender !== accountUser) {
+                    chatCell.classList.add('chatContent', 'otherChat');
+                    userChat.innerText = msgObj.sender;
+                } else {
+                    chatCell.classList.add('chatContent', 'mineChat');
+                    userChat.innerText = 'Bạn';
+                }
+                text.textContent = msgObj.message;
+                time.classList.add('time');
+                // time.textContent = moment(msgObj.created_time).format('hh:mm A DD MMM YYYY');
+                // let date = new Date(msgObj.created_time);
+                // date = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+                // console.log(date.toLocaleString());
+                time.textContent = formatISODate(msgObj.created_time);
+                chatCell.appendChild(userChat);
+                div.appendChild(text);
+                div.classList.add('item');
+                chatCell.appendChild(div);
+                chatCell.appendChild(time);
+                chatFrame.appendChild(chatCell);
+                chatFrame.scrollTop = chatFrame.scrollHeight;
+            }
+            function formatISODate(iso) {
+                let date = new Date(iso);
+                return date.toLocaleString().replace(/\//g, '-').replace(',', '');
+            }
+            //----------------------Main-------------------------------------------
+            $('#chatFrame').hide();
+            $('#sendBox').hide();
+            loadPage();
+
+            //Join vào phòng của chính user đó khi đăng nhập thành công
+            socket.emit('joinUserRoom', accountUser);
+
+            //--------------------Chat------------------------------
+            chatInput.addEventListener('submit', function (e) {
+                e.preventDefault();
+                if (message.value && message.value.trim() !== '' && receiver !== '') {
+                    //Gui tin nhan len server lang nghe
+                    socket.emit('sendMessage', {
+                        message: message.value,
+                        sender: accountUser,
+                        receiver: receiver,
+                    });
+                }
+                message.value = '';
+                socket.emit('notificationMsg', accountUser, receiver);
+            });
+
+            //----------------------Search--------------------------
+            searchForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                if (!searchInput.value || searchInput.value.trim() == '') {
+                    showListConversation();
+                } else if (searchInput.value && searchInput.value.trim() !== '') {
+                    socket.emit('searchUser', accountUser, searchInput.value);
+                }
+            });
+            searchAddConversation.addEventListener('submit', function (e) {
+                e.preventDefault();
+                if (!searchAddFriend.value || searchAddFriend.value.trim() == '') {
+                    loadAddFriendPage();
+                } else if (searchAddFriend.value && searchAddFriend.value.trim() !== '') {
+                    socket.emit('searchAddConversation', accountUser, searchAddFriend.value);
+                }
+            });
+
+            //----------------------Typing--------------------------
+            message.addEventListener('focus', function () {
+                socket.emit('typingMsg', { sender: accountUser, receiver: receiver });
+            });
+            message.addEventListener('blur', function () {
+                socket.emit('stopTyping', { sender: accountUser, receiver: receiver });
+            });
+        </script>
+        <%} else{%>
+        <script>
+            window.location = '/';
+        </script>
+        <%}%>
+        <!-- <script src="js/main.js"></script> -->
+    </body>
+</html>

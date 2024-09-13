@@ -1,0 +1,565 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;1,100;1,300&display=swap');
+
+:root {
+    --primary-color: #000000;
+    --second-color: #e0e0e0;
+    --bg-color: #fff;
+    --bg-btn: #3598db;
+    --deeper-bg-btn: #36b6fd;
+}
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: Roboto, sans-serif;
+}
+/* ---------- Chat Box ------------ */
+::-webkit-scrollbar {
+    display: none;
+}
+#chat {
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+.mainContainer {
+    margin: 5rem auto;
+    width: 60%;
+    max-width: 1200px;
+    min-width: 375px;
+    max-height: 500px;
+    display: flex;
+    justify-content: center;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+.left {
+    display: flex;
+    flex-direction: column;
+    width: 20rem;
+    float: left;
+    /* text-wrap: nowrap; */
+    border-right: 1px solid rgba(0, 0, 0, 0.5);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background-color: var(--bg-color);
+}
+.left .userOnline {
+    min-width: 150px;
+    text-align: center;
+    height: 80px;
+    font-weight: 700;
+    font-size: large;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    border-top-left-radius: 10px;
+    background-color: var(--bg-btn);
+    text-wrap: nowrap;
+    color: #fff;
+}
+.left .userOnline i {
+    font-size: 43px;
+}
+.left .title {
+    padding: 3px 35px;
+    font-size: large;
+    font-weight: bolder;
+    text-align: center;
+    color: var(--bg-btn);
+}
+#search {
+    /* display: flex; */
+    padding: 0.5rem 0.3rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    margin-top: 10px;
+}
+#search input {
+    border: none;
+    outline: none;
+    width: 85%;
+    background-color: transparent;
+    margin-left: 0.2rem;
+    font-size: medium;
+}
+#search button {
+    border: none;
+    width: 10%;
+    /* height: 35px; */
+    font-size: large;
+    background-color: transparent;
+}
+#addFriend #search {
+    display: flex;
+    justify-content: space-between;
+}
+.left #user {
+    height: 420px;
+}
+.left #user #userName {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 340px;
+    border-bottom-left-radius: 10px;
+}
+.left #user #userName .userItem {
+    padding: 0.6rem 1rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    text-align: left;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    width: -webkit-fill-available;
+    position: relative;
+    background-color: #fbfbfb;
+}
+.left #user #userName .userItem p {
+    word-break: break-word;
+    min-width: 60px;
+}
+.left #user #userName .userItem span {
+    background-color: crimson;
+    border-radius: 50%;
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    left: 50px;
+    top: 6px;
+}
+.left #user #userName .userItem:hover {
+    background-color: var(--second-color);
+    transform: scale(110%);
+    transition: all ease-in-out 0.2s;
+}
+.left #receiver {
+    padding: 0.85rem;
+    font-size: medium;
+    box-shadow: 0px -3px 3px 0px #e3e3e3;
+    border: none;
+    border-bottom-left-radius: 10px;
+    height: 50px;
+}
+.right {
+    min-width: 210px;
+    width: 100%;
+    background: var(--bg-color);
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+.right .userInfo {
+    display: flex;
+    justify-content: space-between;
+    height: 80px;
+    align-items: center;
+    z-index: 2;
+    border-top-right-radius: 10px;
+    background-color: var(--bg-btn);
+}
+.right .userInfo p {
+    font-weight: 700;
+    font-size: large;
+    margin-left: 1rem;
+}
+.right .userInfo button {
+    width: 2rem;
+    height: 2rem;
+    margin-right: 1rem;
+    border-radius: 25px;
+    border: none;
+    background-color: #fff;
+    color: var(--bg-btn);
+    font-size: large;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+}
+.right .userInfo button i {
+    display: flex;
+    justify-content: center;
+}
+.right .userInfo button:hover {
+    background: var(--second-color);
+    transform: scale(110%);
+}
+.right #addFriend {
+    height: 420px;
+    /* overflow-y: scroll;
+    scroll-behavior: smooth; */
+}
+.right #addFriend .title {
+    padding: 0.5rem 35px;
+    font-size: large;
+    font-weight: bolder;
+    text-align: center;
+    color: var(--bg-btn);
+}
+.right #addFriend #friendRequest {
+    display: flex;
+    flex-direction: column;
+    height: 118px;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+.right #addFriend #friendRequest .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    height: 51px;
+}
+.right #addFriend #friendRequest .item i {
+    color: var(--bg-btn);
+    font-size: x-large;
+}
+.right #addFriend #friendRequest .item p {
+    max-width: 1400px;
+    text-align: left;
+    word-break: break-word;
+}
+.right #addFriend #friendRequest .item button {
+    border-radius: 50%;
+    border: none;
+    min-width: 35px;
+    width: 35px;
+    height: 35px;
+    background-color: var(--bg-btn);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.right #addFriend #friendRequest .item button:hover {
+    background-color: var(--deeper-bg-btn);
+    transform: scale(110%);
+}
+.right #addFriend #friendRequest .item button i {
+    color: #fff;
+}
+.right #addFriend #listUser {
+    display: flex;
+    flex-direction: column;
+    height: 175px;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+.right #addFriend #listUser .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    height: 51px;
+}
+.right #addFriend #listUser .item i {
+    color: var(--bg-btn);
+    font-size: x-large;
+}
+.right #addFriend #listUser .item p {
+    max-width: 1400px;
+    text-align: left;
+    word-break: break-word;
+}
+.right #addFriend #listUser .item button {
+    border-radius: 50%;
+    border: none;
+    min-width: 35px;
+    width: 35px;
+    height: 35px;
+    background-color: var(--bg-btn);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.right #addFriend #listUser .item button:hover {
+    background-color: var(--deeper-bg-btn);
+    transform: scale(110%);
+}
+.right #addFriend #listUser .item button i {
+    color: #fff;
+}
+#currentUser {
+    color: #fff;
+    text-wrap: nowrap;
+}
+#chatFrame {
+    height: 370px;
+    padding: 1rem;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    /* word-wrap: break-word; */
+}
+#chatFrame .chatContent.otherChat {
+    border: none;
+    margin-bottom: 1rem;
+    clear: both;
+    float: inline-start;
+    width: 70%;
+    color: #000;
+}
+#chatFrame .chatContent.otherChat h5 {
+    margin-left: 0.3rem;
+    margin-bottom: 0.2rem;
+    color: dimgray;
+}
+#chatFrame .chatContent.otherChat p {
+    text-align: left;
+    margin-top: 0.3rem;
+    margin-right: 0.2rem;
+    font-size: xx-small;
+}
+#chatFrame .chatContent.otherChat .time {
+    color: dimgray;
+}
+#chatFrame .chatContent.otherChat .item {
+    border-radius: 10px 10px 10px 0px;
+    background-color: #fffeff;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    width: fit-content;
+    padding: 0.5rem 1rem;
+    overflow-wrap: anywhere;
+}
+#chatFrame .chatContent.otherChat .item p {
+    margin: 0;
+    text-align: left;
+    font-size: medium;
+}
+#chatFrame .chatContent.mineChat {
+    border: none;
+    margin-bottom: 1rem;
+    width: 70%;
+    clear: both;
+    float: inline-end;
+    display: flex;
+    color: #000;
+    flex-direction: column;
+    align-items: flex-end;
+}
+#chatFrame .chatContent.mineChat h5 {
+    text-align: right;
+    margin-right: 0.2rem;
+    margin-bottom: 0.3rem;
+    color: dimgray;
+}
+#chatFrame .chatContent.mineChat p {
+    text-align: right;
+    margin-top: 0.3rem;
+    margin-left: 0.2rem;
+    font-size: xx-small;
+}
+#chatFrame .chatContent.mineChat .time {
+    color: dimgray;
+}
+#chatFrame .chatContent.mineChat .item {
+    border-radius: 10px 10px 0px 10px;
+    background-color: var(--bg-btn);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    /* width: fit-content; */
+    padding: 0.5rem 1rem;
+    overflow-wrap: anywhere;
+}
+#chatFrame .chatContent.mineChat .item p {
+    margin: 0;
+    text-align: left;
+    font-size: medium;
+    color: #fff;
+}
+#sendBox {
+    position: relative;
+}
+#chatInput {
+    height: 50px;
+    width: 100%;
+    position: relative;
+    padding: 0.3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px -3px 3px 0px #e3e3e3;
+}
+#messageInput {
+    border: 1px solid #000;
+    width: 95%;
+    padding: 0 0.5rem;
+    height: 2rem;
+    font-size: medium;
+    border-radius: 50px;
+}
+#sendBtn {
+    width: 3rem;
+    height: 2rem;
+    border: none;
+    text-align: center;
+    color: var(--bg-btn);
+    background: transparent;
+    font-size: large;
+    font-weight: 600;
+    cursor: pointer;
+}
+#sendBtn:hover {
+    background: var(--second-color);
+    border-radius: 25px;
+}
+#typing {
+    position: absolute;
+    color: var(--primary-color);
+    background: #fff;
+    box-shadow: 0px 0px 3px 1px;
+    margin: 0 0.5rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 10px;
+    width: fit-content;
+    font-size: small;
+    bottom: 3.5rem;
+    display: none;
+    transition: step-start all 0.3s;
+}
+/* ---------- Login ------------ */
+#notify {
+    width: 450px;
+    height: 50px;
+    background-color: rgb(253, 108, 108);
+    border: 1px solid red;
+    border-radius: 10px;
+    margin: 10px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    text-align: center;
+}
+#login {
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+.boxLogin {
+    max-width: 450px;
+    min-width: 375px;
+    height: 450px;
+    margin: 5rem auto;
+    background-color: white;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    padding: 2rem;
+}
+.boxLogin .title {
+    padding: 0.5rem;
+    font-size: xx-large;
+    font-weight: bold;
+    display: flex;
+}
+.boxLogin form {
+    height: 100%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.boxLogin form div {
+    width: 100%;
+}
+.boxLogin form div input {
+    width: 100%;
+    margin: 1.5rem auto;
+    border: none;
+    border-bottom: 2px solid #000;
+    font-size: large;
+    outline: none;
+}
+
+.boxLogin form button {
+    padding: 1rem;
+    border: none;
+    border-radius: 25px;
+    color: #fff;
+    font-size: large;
+    background-color: var(--bg-btn);
+    cursor: pointer;
+}
+.boxLogin form button:hover {
+    background-color: var(--deeper-bg-btn);
+}
+.boxLogin form p {
+    padding: 0.5rem;
+    color: #000;
+    font-size: medium;
+    text-align: center;
+}
+.boxLogin form p a {
+    color: var(--bg-btn);
+}
+/* ---------- Register ------------ */
+#register {
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+.boxRegister {
+    max-width: 450px;
+    min-width: 375px;
+    height: 500px;
+    margin: 4rem auto;
+    background-color: white;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    padding: 2rem;
+}
+.boxRegister .title {
+    height: 100%;
+    padding: 0.5rem;
+    font-size: xx-large;
+    font-weight: bold;
+    display: flex;
+}
+.boxRegister form {
+    height: 100%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.boxRegister form div {
+    width: 100%;
+}
+.boxRegister form div input {
+    width: 100%;
+    margin: 1.5rem auto;
+    border: none;
+    border-bottom: 2px solid #000;
+    font-size: large;
+    outline: none;
+}
+
+.boxRegister form button {
+    padding: 1rem;
+    border: none;
+    border-radius: 25px;
+    color: #fff;
+    font-size: large;
+    background-color: var(--bg-btn);
+    cursor: pointer;
+}
+.boxRegister form button:hover {
+    background-color: var(--deeper-bg-btn);
+}
+.boxRegister form p {
+    padding: 0.5rem;
+    color: #000;
+    font-size: medium;
+    text-align: center;
+}
+.boxRegister form a {
+    color: var(--bg-btn);
+}
