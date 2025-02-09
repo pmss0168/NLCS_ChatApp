@@ -4,6 +4,12 @@
 
 ---
 
+## 🎥 Demo  
+
+🔗 Xem video demo: [https://youtu.be/hJzWALvx-9M](https://youtu.be/hJzWALvx-9M) 
+
+---
+
 ## 🛠️ Công nghệ sử dụng
 
 - **Backend:**
