@@ -2,13 +2,9 @@
 
 **VanouS Chat** là một ứng dụng trò chuyện trực tuyến cho phép người dùng tìm kiếm bạn bè và gửi tin nhắn tức thì. Hệ thống được xây dựng với mục tiêu tạo ra một nền tảng kết nối nhanh chóng, dễ sử dụng và bảo mật. Ứng dụng sử dụng các công nghệ hiện đại như **Node.js**, **Express.js**, **Socket.IO**, **MySQL**, **EJS**, **HTML**, **CSS**, và **JavaScript**.
 
----
-
 ## 🎥 Demo  
 
 🔗 Xem video demo: [https://youtu.be/hJzWALvx-9M](https://youtu.be/hJzWALvx-9M) 
-
----
 
 ## 🛠️ Công nghệ sử dụng
 
@@ -21,8 +17,6 @@
 - **Frontend:**
   - **EJS**: Render giao diện động.
   - **HTML**, **CSS**, **JavaScript**: Tạo giao diện người dùng.
-  
----
 
 ## 🌟 Chức năng chính
 
@@ -34,8 +28,6 @@
    - Lưu lịch sử tin nhắn trong cơ sở dữ liệu.
 3. **Nhận thông báo tin nhắn mới**:
    - Hiển thị tin mới chưa đọc.
-
----
 
 ## 💻 Cài đặt và triển khai
 
@@ -57,3 +49,9 @@
    ```bash
    npm run server
 5. Truy cập website tại: http://localhost:3000.
+
+
+## 📩 Liên hệ
+
+Nếu bạn có bất kỳ câu hỏi hoặc góp ý nào, vui lòng liên hệ qua email: pmss0168@gmail.com.
+Cảm ơn bạn đã quan tâm đến dự án của chúng tôi!
